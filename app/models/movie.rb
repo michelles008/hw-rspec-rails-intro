@@ -25,6 +25,10 @@ class Movie < ActiveRecord::Base
     response = Faraday.get(url, query)
     results = JSON.parse(response.body).fetch('results', [])
 
+    results = results.reject do |movie_data|
+      Movie.exists?(title: movie_data['title'])
+    end
+
     results.map do |movie_data|
       Movie.new(
         title: movie_data['title'],
