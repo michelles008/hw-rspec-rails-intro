@@ -1,6 +1,42 @@
 class MoviesController < ApplicationController
   before_action :force_index_redirect, only: [:index]
 
+  def search_tmdb
+    search_params = {
+      title: params[:title],
+      release_year: params[:release_year],
+      language: params[:language]
+    }
+
+    if search_params[:title].blank?
+      @movies = []
+
+      if params.key?(:title)
+        flash.now[:danger] = "Please fill in all required fields!"
+      end
+
+      return
+    end
+
+    @movies = Movie.find_in_tmdb(search_params)
+
+    if @movies.blank?
+      flash.now[:warning] = "No movies found with given parameters!"
+    end
+  end
+
+  def add_movie
+    @movie = Movie.create!(
+      title: params[:title],
+      rating: 'R',
+      release_date: params[:release_date],
+      description: params[:description]
+    )
+
+    flash[:notice] = "#{@movie.title} was successfully added to RottenPotatoes."
+    redirect_to search_tmdb_path
+  end
+
   def show
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID

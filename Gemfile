@@ -29,6 +29,7 @@ end
 group :test do
   gem 'rails-controller-testing'
   gem 'guard-rspec'
+  gem 'webmock'
 end
 
 group :production do
