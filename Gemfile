@@ -4,7 +4,7 @@ ruby '3.3.8'
 gem 'rails', '~>7.1.5'
 gem 'ffi', '1.14.2'
 gem 'faraday', '1.8.0'
-
+gem 'json', '~> 2.9'
 
 gem 'sass-rails', '~> 5.0.3'
 gem 'uglifier', '>= 2.7.1'
